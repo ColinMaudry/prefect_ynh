@@ -28,29 +28,13 @@ source /usr/share/yunohost/helpers
 # or 'example__2', '__3', ... for multi-instance installs)
 #
 
-#=================================================
-# SETTINGS
-#=================================================
-ynh_script_progression --message="Storing installation settings..."
-
-# Logging:
-log_file="/var/log/$app/$app.log"
-ynh_app_setting_set --app=$app --key=log_file --value="$log_file"
-
-#=================================================
-# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
-#=================================================
-#ynh_script_progression --message="Validating installation parameters..."
-
-mkdir -p "$install_dir/media" "$install_dir/static"
 
 #=================================================
 # SETUP LOG FILE
 #=================================================
 ynh_script_progression --message="Setup logging..."
 
-# Use logrotate to manage application logfile(s)
-ynh_use_logrotate --logfile="$log_file" --specific_user=$app
+ynh_config_add_logrotate
 
 #=================================================
 # PYTHON VIRTUALENV
