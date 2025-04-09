@@ -49,8 +49,6 @@ mkdir -p "$install_dir/media" "$install_dir/static"
 #=================================================
 ynh_script_progression --message="Setup logging..."
 
-myynh_setup_log_file
-
 # Use logrotate to manage application logfile(s)
 ynh_use_logrotate --logfile="$log_file" --specific_user=$app
 
@@ -85,30 +83,27 @@ chown -c -R "$app:$app" "$data_dir"
 chmod -c u+rwx,g+rwx,o-rwx "$data_dir"
 
 #=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Configuring nginx web server..."
+
+# Create a dedicated nginx config
+ynh_add_nginx_config
+
+#=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_script_progression --message="Configuring systemd service '$app'..." --weight=5
 
-# https://yunohost.org/en/packaging_apps_helpers#ynh-add-systemd-config
-# https://github.com/YunoHost/yunohost/blob/dev/helpers/systemd
-ynh_add_systemd_config --service=$app --template="systemd.service"
+ynh_config_add_systemd
 
 #=================================================
 # Start the app server via systemd
 #=================================================
 ynh_script_progression --message="Starting systemd service '$app'..." --weight=5
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="$log_file"
+ynh_systemctl --service="$app" --action="start"
 
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Configuring nginx web server..."
-
-# Create a dedicated nginx config
-# https://yunohost.org/en/contribute/packaging_apps/helpers
-# https://github.com/YunoHost/yunohost/blob/dev/helpers/nginx
-ynh_add_nginx_config "public_path" "port"
 
 #=================================================
 # END OF SCRIPT
