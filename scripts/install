@@ -68,28 +68,6 @@ ynh_script_progression --message="Create $app configuration files..."
 
 ynh_add_config --template=".env" --destination="$data_dir/.env"
 
-touch "$data_dir/local_settings.py"
-
-#=================================================
-# MIGRATE / COLLECTSTATIC / CREATEADMIN
-#=================================================
-ynh_script_progression --message="migrate/collectstatic/createadmin..." --weight=10
-
-cd "$data_dir" || exit
-
-# Just for debugging:
-./manage.py diffsettings
-
-./manage.py migrate --no-input
-./manage.py collectstatic --no-input
-
-# Create/update Django superuser (set unusable password, because auth done via SSOwat):
-./manage.py create_superuser --username="$admin" --email="$(ynh_user_get_info "$admin" mail)"
-
-# Check the configuration
-# This may fail in some cases with errors, etc., but the app works and the user can fix issues later.
-./manage.py check --deploy || true
-
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
 #=================================================
@@ -103,7 +81,8 @@ yunohost service add $app
 # SECURE FILES AND DIRECTORIES
 #=================================================
 ynh_script_progression --message="Set file permissions..."
-myynh_fix_file_permissions
+chown -c -R "$app:$app" "$data_dir"
+chmod -c u+rwx,g+rwx,o-rwx "$data_dir"
 
 #=================================================
 # SETUP SYSTEMD
