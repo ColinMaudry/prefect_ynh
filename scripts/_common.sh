@@ -18,8 +18,8 @@ myynh_setup_python_venv() {
         source "$data_dir/venv/bin/activate"
         set -o nounset
         set -x
-        ynh_exec_as $app $data_dir/venv/bin/python3 -m ensurepip
-        ynh_exec_as $app $data_dir/venv/bin/pip3 install --upgrade wheel pip setuptools
-        ynh_exec_as $app $data_dir/venv/bin/pip3 install -r "$data_dir/requirements.txt"
+        ynh_exec_as_app $app $data_dir/venv/bin/python3 -m ensurepip
+        ynh_exec_as_app $app $data_dir/venv/bin/pip3 install --upgrade wheel pip setuptools
+        ynh_exec_as_app $app $data_dir/venv/bin/pip3 install -r "$data_dir/requirements.txt"
     )
 }
