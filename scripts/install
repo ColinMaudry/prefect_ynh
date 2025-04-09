@@ -28,14 +28,6 @@ source /usr/share/yunohost/helpers
 # or 'example__2', '__3', ... for multi-instance installs)
 #
 
-
-#=================================================
-# SETUP LOG FILE
-#=================================================
-ynh_script_progression --message="Setup logging..."
-
-ynh_config_add_logrotate
-
 #=================================================
 # PYTHON VIRTUALENV
 #=================================================
@@ -48,14 +40,21 @@ myynh_setup_python_venv
 # ================================================
 ynh_script_progression --message="Create $app configuration files..."
 
-ynh_add_config --template=".env" --destination="$data_dir/.env"
+ynh_config_add --template=".env" --destination="$data_dir/.env"
 
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app
+yunohost service add "$app" --description="A data pipeline orchestration platform." --log="/var/log/$app/$app.log"
+
+#=================================================
+# SETUP LOG FILE
+#=================================================
+ynh_script_progression --message="Setup logging..."
+
+ynh_config_add_logrotate
 
 #=================================================
 # GENERIC FINALIZATION
