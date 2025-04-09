@@ -5,7 +5,7 @@
 #=================================================
 myynh_setup_python_venv() {
     # Always recreate everything fresh with current python version
-    ynh_secure_remove "$data_dir/venv"
+    rm -rf "$data_dir/venv"
 
     # Skip pip because of: https://github.com/YunoHost/issues/issues/1960
     python3 -m venv --without-pip "$data_dir/venv"
