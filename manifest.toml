@@ -86,12 +86,12 @@ ram.runtime = "50M"
 
 #    [resources.sources]
 #
-#    [resources.sources.main]
-#    # This will pre-fetch the asset which can then be deployed during the install/upgrade scripts with :
-#    #    ynh_setup_source --dest_dir="$install_dir"
-#    # You can also define other assets than "main" and add --source_id="foobar" in the previous command
-#    url = "https://github.com/PrefectHQ/prefect/archive/refs/tags/3.3.3.tar.gz"
-#    sha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    [resources.sources.main]
+    # This will pre-fetch the asset which can then be deployed during the install/upgrade scripts with :
+    #    ynh_setup_source --dest_dir="$install_dir"
+    # You can also define other assets than "main" and add --source_id="foobar" in the previous command
+    url = "https://github.com/PrefectHQ/prefect/archive/refs/tags/3.4.17.tar.gz"
+    sha256 = "7400323116a151b3eb135d4136aed1a8b4c2119f3b266e4014f9d36cc6855405"
 #
 #    # These infos are used by https://github.com/YunoHost/apps_tools/blob/main/autoupdate_app_sources/autoupdate_app_sources.py
 #    # to auto-update the previous asset urls and sha256sum + manifest version
